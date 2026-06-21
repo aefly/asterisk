@@ -1,0 +1,12 @@
+{
+    "name": "asterisk",
+    "private": true,
+    "version": "0.1.0",
+    "description": "Warns you before sensitive details slip into AI conversations.",
+    "scripts": {
+        "generate-css": "tailwindcss -i src/lib/tailwind.source.css -o src/lib/tailwind.css --minify"
+    },
+    "devDependencies": {
+        "@tailwindcss/cli": "^4.3.1"
+    }
+}

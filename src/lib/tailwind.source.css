@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@source "../popup/popup.html";
+@source "../popup/popup.js";
+@source "../settings/settings.html";
+@source "../settings/settings.js";
+@source "./theme.css";

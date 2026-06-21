@@ -1,0 +1,23 @@
+html {
+    background-color: var(--color-gray-50);
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: #0d1117;
+    }
+}
+
+/* Subtle hover for site rows in the popup list. */
+.ast-site-row {
+    transition: background-color 120ms ease;
+}
+.ast-site-row:hover {
+    background-color: #f9fafb;
+}
+
+@media (prefers-color-scheme: dark) {
+    .ast-site-row:hover {
+        background-color: #21262d;
+    }
+}

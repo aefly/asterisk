@@ -1,0 +1,36 @@
+version: 2
+updates:
+    # Actions
+    - package-ecosystem: "github-actions"
+      directory: "/"
+      schedule:
+          interval: "monthly"
+          time: "06:00"
+          timezone: "UTC"
+      open-pull-requests-limit: 5
+      labels:
+          - "actions"
+      commit-message:
+          prefix: "ci"
+          include: "scope"
+      groups:
+          actions:
+              patterns:
+                  - "*"
+    # NPM
+    - package-ecosystem: "npm"
+      directory: "/"
+      schedule:
+          interval: "monthly"
+          time: "06:00"
+          timezone: "UTC"
+      open-pull-requests-limit: 5
+      labels:
+          - "dependencies"
+      commit-message:
+          prefix: "chore"
+          include: "scope"
+      groups:
+          npm:
+              patterns:
+                  - "*"

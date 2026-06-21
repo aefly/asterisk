@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Asterisk Settings</title>
+        <link rel="stylesheet" href="../lib/tailwind.css" />
+        <link rel="stylesheet" href="../lib/switch.css" />
+        <link rel="stylesheet" href="../lib/theme.css" />
+    </head>
+    <body class="bg-gray-50 text-gray-800 antialiased">
+        <div class="max-w-xl mx-auto px-4 py-6">
+            <header class="flex items-center gap-3 mb-5">
+                <img
+                    id="ast-brand"
+                    src="../../icons/icon-128.png"
+                    alt="Asterisk"
+                    class="w-10 h-10 rounded-xl"
+                />
+                <div class="leading-tight">
+                    <div class="text-lg font-semibold text-gray-900">
+                        Asterisk Settings
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Choose what to watch for before you send.
+                    </div>
+                </div>
+            </header>
+
+            <div
+                class="flex items-center justify-between rounded-xl bg-white border border-gray-200 px-3 py-2.5 mb-2"
+            >
+                <div class="flex items-center gap-2.5">
+                    <span class="text-gray-500" id="ast-power-icon"></span>
+                    <div class="leading-tight">
+                        <div class="text-sm font-medium text-gray-800">
+                            Protection
+                        </div>
+                        <div class="text-xs text-gray-500" id="ast-master-sub">
+                            On — warn before sending
+                        </div>
+                    </div>
+                </div>
+                <label class="ast-switch">
+                    <input
+                        type="checkbox"
+                        id="ast-master"
+                        class="ast-switch-input"
+                    />
+                    <span class="ast-switch-track"
+                        ><span class="ast-switch-thumb"></span
+                    ></span>
+                </label>
+            </div>
+            <p class="text-xs text-gray-400 mb-5 px-1">
+                Turn individual AI platforms on or off from the Asterisk toolbar
+                popup.
+            </p>
+
+            <div
+                class="text-xs uppercase tracking-wide font-semibold text-gray-400 mb-1.5 px-1"
+            >
+                What to watch for
+            </div>
+            <ul id="ast-types" class="flex flex-col gap-2"></ul>
+
+            <footer class="mt-6 pt-4 border-t border-gray-200">
+                <div
+                    class="mt-2 flex items-center justify-center gap-2 text-xs text-gray-600"
+                >
+                    <span class="text-gray-400" id="ast-lock-icon"></span>
+                    <span
+                        >All checks run on your device. Asterisk never sends
+                        your text anywhere.</span
+                    >
+                </div>
+                <div
+                    class="mt-2 flex items-center justify-center gap-3 text-xs text-gray-400"
+                >
+                    <span id="ast-version"></span>
+                    <span class="text-gray-300">•</span>
+                    <a
+                        id="ast-github-link"
+                        href="https://github.com/aefly/asterisk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-[#F17528] hover:text-[#d9621a]"
+                    ></a>
+                </div>
+            </footer>
+        </div>
+
+        <script src="../lib/icons.js"></script>
+        <script src="../lib/storage.js"></script>
+        <script src="../content/pii-detector.js"></script>
+        <script src="settings.js"></script>
+    </body>
+</html>

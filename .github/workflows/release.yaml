@@ -1,0 +1,67 @@
+# Packages the extension into a load-unpacked zip and publishes a GitHub Release.
+# Trigger: push a tag like v0.1.0 (must match manifest.json "version").
+# Manual:  Actions tab → Run workflow (builds the zip as an artifact, no release).
+
+name: Release
+
+on:
+    push:
+        tags:
+            - "v*"
+    workflow_dispatch:
+
+permissions:
+    contents: write
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+
+            - name: Validate manifest & read version
+              id: ver
+              run: |
+                  node -e "JSON.parse(require('fs').readFileSync('manifest.json','utf8'))"
+                  echo "version=$(node -p "require('./manifest.json').version")" >> "$GITHUB_OUTPUT"
+
+            - name: Verify tag matches manifest version
+              if: startsWith(github.ref, 'refs/tags/v')
+              run: |
+                  tag="${GITHUB_REF#refs/tags/v}"
+                  if [ "$tag" != "${{ steps.ver.outputs.version }}" ]; then
+                    echo "::error::Tag v$tag does not match manifest.json version ${{ steps.ver.outputs.version }}"
+                    exit 1
+                  fi
+
+            - name: Package extension
+              run: |
+                  version="${{ steps.ver.outputs.version }}"
+                  dir="asterisk-$version"
+                  mkdir "$dir"
+                  # Only ship what Chrome needs to load the extension unpacked.
+                  cp manifest.json LICENSE README.md "$dir/"
+                  cp -r icons src "$dir/"
+                  # tailwind.source.css is a dev-only input for the Tailwind CLI.
+                  rm -f "$dir/src/lib/tailwind.source.css"
+                  zip -r "asterisk-$version.zip" "$dir"
+
+            - name: Upload build artifact
+              uses: actions/upload-artifact@v7
+              with:
+                  name: asterisk-${{ steps.ver.outputs.version }}
+                  path: asterisk-${{ steps.ver.outputs.version }}.zip
+                  retention-days: 30
+
+            - name: Create GitHub Release
+              if: startsWith(github.ref, 'refs/tags/v')
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  version="${{ steps.ver.outputs.version }}"
+                  flags=""
+                  if [[ "$version" == *-* ]]; then flags="--prerelease"; fi
+                  gh release create "v$version" "asterisk-$version.zip" \
+                    --title "v$version" \
+                    --generate-notes \
+                    $flags

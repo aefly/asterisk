@@ -1,0 +1,44 @@
+/* Dark-mode overrides for the Tailwind utilities used in popup/settings.
+   Loaded after tailwind.css so it wins the cascade without !important.
+   Follows the browser/OS theme via prefers-color-scheme. */
+@media (prefers-color-scheme: dark) {
+    .bg-gray-50 {
+        background-color: #0d1117;
+    }
+    .bg-white {
+        background-color: #161b22;
+    }
+    .bg-gray-100 {
+        background-color: #21262d;
+    }
+
+    .border-gray-200 {
+        border-color: #30363d;
+    }
+
+    .text-gray-900,
+    .text-gray-800 {
+        color: #e6edf3;
+    }
+    .text-gray-600,
+    .text-gray-500 {
+        color: #b1bac4;
+    }
+    .text-gray-400 {
+        color: #7d8590;
+    }
+    .text-gray-300 {
+        color: #484f58;
+    }
+
+    .text-\[\#F17528\] {
+        color: #f17528;
+    }
+    .hover\:text-\[\#d9621a\]:hover {
+        color: #ff8a4a;
+    }
+
+    .ast-switch-track {
+        background: #30363d;
+    }
+}
