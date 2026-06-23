@@ -78,6 +78,7 @@
             input.checked = settings.piiTypes[t.id] !== false;
             input.disabled = settings.enabled === false;
             input.dataset.type = t.id;
+            input.setAttribute("aria-label", `Detect ${t.label}`);
             input.addEventListener("change", async () => {
                 settings = await Asterisk.storage.saveSettings({
                     piiTypes: { [t.id]: input.checked },
