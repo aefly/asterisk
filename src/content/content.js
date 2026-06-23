@@ -158,6 +158,9 @@
     }
 
     function onSubmit(e) {
+        // Only intercept forms near the composer — never unrelated forms
+        // (feedback widgets, login modals, etc.) elsewhere on the page.
+        if (!isNearComposer(e.target)) return;
         if (maybeIntercept()) {
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -188,6 +191,10 @@
         if (!state.site) return;
         const composer = findEl(state.site.composer);
         if (composer && composer.isConnected) state.composer = composer;
+        // While the warning dialog is open, keep the sendButton snapshot taken
+        // at intercept time — refresh() running during the warning would otherwise
+        // replace it with a disabled/re-rendered button and break "Send anyway".
+        if (self.Asterisk.warning && self.Asterisk.warning.isShowing()) return;
         const btn = findEl(state.site.sendButton);
         if (btn && btn.isConnected) state.sendButton = btn;
         else if (state.sendButton && !state.sendButton.isConnected) {
@@ -195,10 +202,22 @@
         }
     }
 
+    // Coalesce rapid DOM mutations into one refresh per frame. AI sites fire
+    // many mutations during SPA navigation/typing; running querySelectorAll for
+    // every selector on every mutation is wasteful.
+    let refreshRaf = 0;
+    function scheduleRefresh() {
+        if (refreshRaf) return;
+        refreshRaf = requestAnimationFrame(() => {
+            refreshRaf = 0;
+            refresh();
+        });
+    }
+
     function startObserver() {
         if (state.observing) return;
         state.observing = true;
-        const obs = new MutationObserver(() => refresh());
+        const obs = new MutationObserver(scheduleRefresh);
         const root = document.body || document.documentElement;
         obs.observe(root, { childList: true, subtree: true });
         document.addEventListener("keydown", onDocumentKeydown, true);
