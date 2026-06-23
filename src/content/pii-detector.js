@@ -150,7 +150,7 @@
                 /(?<![A-Za-z0-9_])glpat-[A-Za-z0-9_-]{20}(?![A-Za-z0-9_])/g, // GitLab
                 /(?<![A-Za-z0-9_-])xox[abp]-[0-9A-Za-z-]{10,}/g, // Slack
                 /(?<![A-Za-z0-9_])(?:sk|rk)_live_[0-9a-zA-Z]{24,}(?![A-Za-z0-9_])/g, // Stripe
-                /(?<![A-Za-z0-9_])sk-[A-Za-z0-9]{20,}(?![A-Za-z0-9_])/g, // OpenAI
+                /(?<![A-Za-z0-9_])sk-[A-Za-z0-9][A-Za-z0-9-]{19,}(?![A-Za-z0-9_-])/g, // OpenAI
                 /(?<![A-Za-z0-9_-])eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+(?![A-Za-z0-9_-])/g, // JWT
             ];
             let out = [];
