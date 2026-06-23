@@ -57,6 +57,7 @@
             input.className = "ast-switch-input";
             input.checked = settings.sites[site.id] !== false;
             input.dataset.site = site.id;
+            input.setAttribute("aria-label", `Enable Asterisk on ${site.name}`);
             input.addEventListener("change", async () => {
                 settings = await Asterisk.storage.saveSettings({
                     sites: { [site.id]: input.checked },
@@ -145,6 +146,19 @@
         renderMaster();
         renderSites();
         await renderStatus();
+        // Live-update when settings change in another tab (e.g. the settings
+        // page) while the popup is open — mirrors settings.js's listener.
+        Asterisk.storage.onChanged((s) => {
+            settings = s;
+            renderMaster();
+            $("ast-sites")
+                .querySelectorAll("input")
+                .forEach((input) => {
+                    input.checked =
+                        settings.sites[input.dataset.site] !== false;
+                });
+            renderStatus();
+        });
     }
 
     document.addEventListener("DOMContentLoaded", init);
