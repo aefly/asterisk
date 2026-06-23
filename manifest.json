@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Asterisk",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Warns you before sensitive details slip into AI conversations.",
     "minimum_chrome_version": "149",
     "icons": {
